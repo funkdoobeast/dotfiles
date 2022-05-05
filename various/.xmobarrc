@@ -1,0 +1,30 @@
+Config { font = "-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*"
+       , additionalFonts = ["xft:Mononoki Nerd Font:pixelsize=10:antialias=true:hinting=true"
+                           , "xft:FontAwesome:pixelsize=12"
+                           ]
+       , bgColor = "black"
+       , fgColor = "grey"
+       , position = Top
+       , lowerOnStart = True
+       , hideOnStart = False
+       , commands = [ Run Network "enp1s0f0" ["-L","0","-H","32","--normal","green","--high","red"] 10
+                    , Run Network "wlp2s0" ["-L","0","-H","32","--normal","green","--high","red"] 10
+                    , Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
+                    , Run Memory ["-t","Mem: <usedratio>%"] 10
+                    , Run Swap [] 10
+                    , Run Com "uname" ["-r"] "" 36000
+	            , Run Date "%b %d %H:%M:%S" "date" 10
+		    , Run BatteryP ["BAT0"]
+                                   [
+                                     "-t", "(<leftbar>) <left>% | <timeleft>",
+                                     "-L", "10", "-H", "80", "-p", "3",
+                                     "--", "-O", "<fc=green>On</fc> - ", "-i", "",
+                                     "-l", "red", "-m", "grey", "-h", "green",
+                                     "-a", "notify-send -u critical 'Low Battery'",
+                                     "-A", "10"
+			           ] 300
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "%cpu% | %memory% * %swap% | %enp1s0f0% - %wlp2s0% }{ %uname% | %battery% | <fc=#ee9a00>%date%</fc>"
+       }
